@@ -1,7 +1,5 @@
 package de.techsails.Entites;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class Trip {
 
 	private int id;
@@ -12,8 +10,15 @@ public class Trip {
 		this.name = name;
 	}
 
+	public Trip(String name) {
+		this.id = 0;
+		this.name = name;
+	}
+
+	
 	public Trip() {
 	}
+
 	
 	public int getId() {
 		return id;
