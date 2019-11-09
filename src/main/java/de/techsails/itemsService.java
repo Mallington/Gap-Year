@@ -55,8 +55,16 @@ public class itemsService {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User updateDependencies(Login login) {
+	public User login(Login login) {
 		return dbm.getUser(login.getEmail(), login.getPwd());
+	}
+	
+	@POST
+	@Path("/register")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String register(User user) {
+		return dbm.createUser(user);
 	}
 
 }

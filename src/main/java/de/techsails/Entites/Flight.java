@@ -1,5 +1,7 @@
 package de.techsails.Entites;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Flight {
 
 	private int id;
