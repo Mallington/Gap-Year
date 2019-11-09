@@ -1,5 +1,7 @@
 package de.techsails.Control;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -9,8 +11,29 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import de.techsails.Entites.Flight;
 import de.techsails.Entites.User;
+import de.techsails.JavaJSON.JSONArray;
+import de.techsails.JavaJSON.JSONObject;
+import de.techsails.JavaJSON.JSONTokener;
 
 public class FlightPlanner {
+	
+	FileInputStream countriesGeoCodesFile;
+	JSONArray countriesGeoCodes;
+	
+	HashMap<String, CountryData> countryData;
+	
+	public FlightPlanner() {
+		try {
+			countriesGeoCodesFile = new FileInputStream(getClass().getResource("country-geocodes.json").getPath());
+			countriesGeoCodes = new JSONArray(new JSONTokener(countriesGeoCodesFile));
+			for (int i = 0; i < countriesGeoCodes.length(); i++) {
+				JSONArray tmp = countriesGeoCodes.getJSONArray(i);
+				CountryData data = new CountryData(tmp.getString(0),tmp.getDouble(1),tmp.getDouble(2),tmp.getString(3));
+				countryData.put(data.name, data);
+			}
+		} catch(FileNotFoundException e) {
+		}
+	}
 	
 	public List<Flight> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
 		ArrayList<Flight> flightsPlan = new ArrayList<>();
@@ -42,7 +65,7 @@ public class FlightPlanner {
 			}
 		});
 		
-		SkyScanner skyScanner = new SkyScanner(""); //TODO add api key
+		SkyScanner skyScanner = new SkyScanner("jackobs2019"); //TODO add api key
 		List<Flight> flights = null ;
 		try {
 			flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
@@ -60,7 +83,7 @@ public class FlightPlanner {
 	}
 	
 	public GeoCode getGeoCode(String country) {
-		return new GeoCode(0,0);
+		return countryData.get(country).geoCode;
 	}
 }
 
@@ -76,5 +99,19 @@ class GeoCode{
 	
 	public Double getDistance(GeoCode code) {
 		return Math.sqrt(Math.pow(longitude-code.longitude,2) + Math.pow(latitude-code.latitude,2));
+	}
+}
+
+class CountryData {
+	public String country;
+	public GeoCode geoCode;
+	public String name;
+	
+	public CountryData() {}
+	
+	public CountryData(String country, double lat, double lon, String name) {
+		this.country = country;
+		geoCode = new GeoCode(lon, lat);
+		this.name = name;
 	}
 }
