@@ -18,7 +18,7 @@ public class DBConnection {
 	public DBConnection() throws SQLException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://sql", "", "");
+			connection = DriverManager.getConnection("jdbc:mysql://34.69.109.28:3306/gapDB", "admin", "newPass");
 			//System.out.println("----------------Connected!!");
 
 		} catch (Exception e) {
