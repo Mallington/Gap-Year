@@ -7,7 +7,7 @@ import de.techsails.JavaJSON.*;
 
 public class SkyScanner {
 	
-	enum FlightPreference{
+	public enum FlightPreference{
 		CHEAPEST
 	}
 
@@ -50,6 +50,30 @@ public class SkyScanner {
     	
     	
     	JSONArray quotes = jsResponse.getJSONArray("Quotes");
+    	
+    	
+    	
+    	switch(preference) {
+    	case CHEAPEST:
+    		int cheapest = Integer.MAX_VALUE;
+    		int index = -1;
+    		
+    		for(int i =0; i< quotes.length(); i++) {
+    				JSONObject quote = quotes.getJSONObject(i);
+    				if(quote.getInt("MinPrice")<cheapest) {
+    					index = i;
+    					cheapest = quote.getInt("MinPrice");
+    				}
+    		}
+    		
+    		JSONObject cheapestQuote = quotes.getJSONObject(index);
+    		
+    		
+    		
+    		break;
+    	}
+    	
+    	
     	
     	System.out.println(quotes.toString());
     	

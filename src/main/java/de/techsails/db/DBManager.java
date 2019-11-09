@@ -18,7 +18,7 @@ public class DBManager {
 	private DBConnection dbconnection;
 	private PreparedStatement pstmt;
 	private ResultSet resultSet;
-	private final static String USER_QUERY = "select * from gapDB.user where email = ? and pwd = ?";
+	private final static String USER_QUERY = "select * from gapDB.user where email like CONCAT('%', ? ,'%') and pwd like CONCAT('%', ? ,'%')";
 
 	public DBManager() throws SQLException {
 		dbconnection = new DBConnection();
@@ -49,7 +49,7 @@ public class DBManager {
 	}*/
 
 	public User getUser(String email, String pwd) {
-		User tempUser = null;
+		User tempUser = new User();
 		reconnect();
 		try (PreparedStatement stmt = dbconnection.getConnection().prepareStatement(USER_QUERY)) {
 			stmt.setString(1, email);
@@ -58,6 +58,7 @@ public class DBManager {
 			if (resultSet.next()) {
 				tempUser = new User(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getDate(6));
 			}
+			close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,9 +68,10 @@ public class DBManager {
 	public String createUser(User user) {
 		User tempUser = getUser(user.getEmail(), user.getPwd());
 		String response = "";
+		reconnect();
 		try{
 			// user doesn't exist
-			if (tempUser == null) {
+			if (tempUser.getName() == null) {
 				String insertQuery = "insert into gapDB.user values (?, ?, ?, ?, ?, ?)";
 				try (PreparedStatement stmt2 = dbconnection.getConnection().prepareStatement(insertQuery)) {
 					stmt2.setString(1, user.getEmail());
