@@ -6,18 +6,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;
-
-import de.techsails.Entites.Flight;
+import java.util.Optional;import de.techsails.Entites.Flight;
+import de.techsails.Entites.User;
 
 public class FlightPlanner {
 	
-	public List<Flight> getFlightPlan(List<String> countries) {
+	public List<Flight> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
 		ArrayList<Flight> flightsPlan = new ArrayList<>();
-		for (int i = 0; i < countries.size(); i++) {
-			
+		String lastCountry = user.getCountry();
+		Date lastArrivalDate = null;
+		while(countries.size() > 0) {
+			Date departure = flightsPlan.isEmpty() ? departureDate : DateUtils.addToDate(lastArrivalDate, numOfDaysInbetween);
+			Flight bestFlight = getBestFlight(lastCountry,countries,departure);
+			countries.remove(lastCountry);
+			lastCountry = bestFlight.getDestination();
+			flightsPlan.add(bestFlight);
 		}
-		return null;
+		
+		return flightsPlan;
 	}
 	
 	public Flight getBestFlight(String country, List<String> countries, Date departure) {
