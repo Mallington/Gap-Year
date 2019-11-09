@@ -42,8 +42,10 @@ public class FlightPlanner {
 		});
 		
 		SkyScanner skyScanner = new SkyScanner(""); //TODO add api key
-		
-		List<Flight> flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+		List<Flight> flights = null ;
+		try {
+		flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+		} catch (Exception e) {}
 		
 		return flights.get(0);
 	}
