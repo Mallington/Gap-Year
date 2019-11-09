@@ -1,17 +1,19 @@
 package de.techsails.Control;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+
+import de.techsails.JavaJSON.JSONException;
 
 public class SkyScannerTest {
-    public static String SKY_SCANNER_KEY = "jacobs-2019";
-    public static void main(String[] args){
+    public static String SKY_SCANNER_KEY = "skyscanner-guts2019";
+    public static void main(String[] args) throws MalformedURLException, JSONException, IOException{
         Request request = new Request();
 
         TravelCommon travel = new TravelCommon(SKY_SCANNER_KEY, request);
-        try {
-            System.out.println(travel.getCurrencies());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        
+            System.out.println(travel.getLocales());
+        
     }
 }

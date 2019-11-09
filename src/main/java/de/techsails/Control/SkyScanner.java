@@ -5,10 +5,11 @@ import de.techsails.JavaJSON.*;
 public class SkyScanner {
 
 
-    private String API_KEY;
-    private String SECRET = "";
-    public SkyScanner(){
-
+    private String apiKey;
+    private String secret = "";
+    
+    public SkyScanner(String key){
+    	apiKey = key;
     }
 
 
