@@ -58,3 +58,7 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+*.prefs
+.project
+.classpath
+.ide/*
