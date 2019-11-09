@@ -28,6 +28,30 @@ public class User {
 		return email;
 	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public String getPwd() {
 		return pwd;
 	}

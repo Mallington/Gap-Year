@@ -10,6 +10,25 @@ public class Login {
 		this.pwd = pwd;
 	}
 
+	
+	
+	public Login() {
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+
+
 	public String getEmail() {
 		return email;
 	}
