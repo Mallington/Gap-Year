@@ -11,7 +11,10 @@ public class Flight {
 		this.departure = departure;
 		this.destination = destination;
 	}
-	
+	public Flight(String departure, String destination) {
+		this.departure = departure;
+		this.destination = destination;
+	}
 	public int getId() {
 		return id;
 	}
