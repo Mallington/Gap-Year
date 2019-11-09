@@ -30,7 +30,9 @@ public class FlightPlanner {
 			}
 		});
 		
+		SkyScanner skyScanner = new SkyScanner("");
 		
+		//List<Flight> flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
 		
 		return null;
 	}
