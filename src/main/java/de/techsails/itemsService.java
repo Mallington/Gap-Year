@@ -22,6 +22,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import de.techsails.db.DBConnection;
+
 
 /**
  * The Class itemsService.
@@ -29,13 +31,22 @@ import javax.ws.rs.core.UriInfo;
 
 @Path("")
 public class itemsService {
-
+	private DBConnection db;
+	
+	public itemsService() {
+		try {
+			db = new DBConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String test() {
 
-		return "RESTful server for ML project";
+		return "RESTful server for ML project "+ db.toString() + "online DB on Google Cloud!";
 	}
 	
 	@GET
