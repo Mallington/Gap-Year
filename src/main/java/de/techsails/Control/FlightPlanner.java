@@ -1,21 +1,26 @@
 package de.techsails.Control;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import de.techsails.Entites.Flight;
+
 public class FlightPlanner {
 	
 	public List<Flight> getFlightPlan(List<String> countries) {
+		ArrayList<Flight> flightsPlan = new ArrayList<>();
+		for (int i = 0; i < countries.size(); i++) {
+			
+		}
 		return null;
 	}
 	
-	public Flight getBestFlight(String country, List<String> countries) {
+	public Flight getBestFlight(String country, List<String> countries, Date departure) {
 		HashMap<String, Double> distances = new HashMap<String,Double>();
 		ArrayList<GeoCode> countriesGeoCodes = getGeoCodesFromCountryList(countries);
 		GeoCode curCountryGeo = getGeoCode(country);
@@ -30,11 +35,11 @@ public class FlightPlanner {
 			}
 		});
 		
-		SkyScanner skyScanner = new SkyScanner("");
+		SkyScanner skyScanner = new SkyScanner(""); //TODO add api key
 		
-		//List<Flight> flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+		List<Flight> flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
 		
-		return null;
+		return flights.get(0);
 	}
 	
 	public ArrayList<GeoCode> getGeoCodesFromCountryList(List<String> countries) {
