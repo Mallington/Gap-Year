@@ -4,8 +4,9 @@ import java.sql.Date;
 
 public class User {
 	
-	private int id;
+	private String email;
 	private String name;
+	private String pwd;
 	private String phoneNo;
 	private String country;
 	private Date birthDate;
@@ -14,16 +15,47 @@ public class User {
 		
 	}
 	
-	public User(int id, String name, String phoneNo, String country, Date birthDate) {
-		this.id = id;
+	public User(String email, String name, String pwd, String phoneNo, String country, Date birthDate) {
+		this.email = email;
 		this.name = name;
-		this.phoneNo = country;
+		this.pwd = pwd;
+		this.phoneNo = phoneNo;
+		this.country = country;
 		this.birthDate = birthDate;
 	}
 	
-	public int getId() {
-		return id;
+	public String getEmail() {
+		return email;
 	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
 	public String getName() {
 		return name;
 	}

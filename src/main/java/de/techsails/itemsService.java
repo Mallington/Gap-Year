@@ -7,10 +7,7 @@
  */
 package de.techsails;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,12 +15,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
-import de.techsails.db.DBConnection;
-
+import de.techsails.Entites.Login;
+import de.techsails.Entites.User;
+import de.techsails.db.DBManager;
 
 /**
  * The Class itemsService.
@@ -31,30 +27,36 @@ import de.techsails.db.DBConnection;
 
 @Path("")
 public class itemsService {
-	private DBConnection db;
-	
+	private DBManager dbm;
+
 	public itemsService() {
 		try {
-			db = new DBConnection();
+			dbm = new DBManager();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String test() {
 
-		return "RESTful server for ML project "+ db.toString() + "online DB on Google Cloud!";
+		return "RESTful server for ML project " + dbm.toString() + "online DB on Google Cloud!";
 	}
-	
+
 	@GET
 	@Path("/items/{itemNo}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getItem(@PathParam("itemNo") String id) {
-		return "Test "+ id;
+		return "Test " + id;
 	}
-	
-	
+
+	@POST
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User updateDependencies(Login login) {
+		return dbm.getUser(login.getEmail(), login.getPwd());
+	}
+
 }

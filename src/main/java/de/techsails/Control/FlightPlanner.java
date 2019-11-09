@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;import de.techsails.Entites.Flight;
+import java.util.Optional;
+import de.techsails.Entites.Flight;
 import de.techsails.Entites.User;
 
 public class FlightPlanner {
@@ -42,8 +43,10 @@ public class FlightPlanner {
 		});
 		
 		SkyScanner skyScanner = new SkyScanner(""); //TODO add api key
-		
-		List<Flight> flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+		List<Flight> flights = null ;
+		try {
+			flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+		} catch (Exception e) {}
 		
 		return flights.get(0);
 	}
