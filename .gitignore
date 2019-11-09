@@ -2,3 +2,6 @@
 *.class
 *.class
 bin/src/main/java/de/techsails/items/Tablet.class
+*.prefs
+.project
+.classpath
