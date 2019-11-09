@@ -10,9 +10,5 @@ public class SkyScannerTest {
     public static void main(String[] args) throws MalformedURLException, JSONException, IOException{
 
         SkyScanner travel = new SkyScanner(SKY_SCANNER_KEY);
-        travel.
-
-      
-        
     }
 }
