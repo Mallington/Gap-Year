@@ -18,7 +18,7 @@ public class DBConnection {
 	public DBConnection() throws SQLException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7264905", "sql7264905", "nrASDVN3MV");
+			connection = DriverManager.getConnection("jdbc:mysql://sql", "", "");
 			//System.out.println("----------------Connected!!");
 
 		} catch (Exception e) {
