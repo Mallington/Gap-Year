@@ -111,7 +111,6 @@ public class SkyScanner {
     			cheapestQuote.getJSONObject("InboundLeg");
     			
     		}else if(!cheapestQuote.isNull("OutboundLeg")) {
-    			System.out.println("Out");
     			cheapestQuote.getJSONObject("OutboundLeg");
     		}
     		leg = cheapestQuote.getJSONObject("InboundLeg");
