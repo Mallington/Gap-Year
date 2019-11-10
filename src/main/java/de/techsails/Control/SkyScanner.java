@@ -58,9 +58,13 @@ public class SkyScanner {
     	
     	for(String depart : depatureAirports) {
     		for(String arrival : arrivalAirports) {
-        		System.out.println(String.format("Checking: %s, %s", depart, arrival));
+        		//System.out.println(String.format("Checking: %s, %s", depart, arrival));
         		FlightQuote cheapest = getAirportToAirport(depart, arrival, preference);
-        		if (cheapest!=null) flightQuotes.add(cheapest);
+        		if (cheapest!=null) {
+        			cheapest.departCountry = departureLocation;
+            		cheapest.destCountry = arrivalLocation;
+        			flightQuotes.add(cheapest);
+        		}
         	}
     	}
     	
@@ -108,12 +112,11 @@ public class SkyScanner {
     		if(cheapestQuote==null) return null;
     		
     		if(!cheapestQuote.isNull("InboundLeg")) {
-    			cheapestQuote.getJSONObject("InboundLeg");
+    			leg = cheapestQuote.getJSONObject("InboundLeg");
     			
     		}else if(!cheapestQuote.isNull("OutboundLeg")) {
-    			cheapestQuote.getJSONObject("OutboundLeg");
+    			leg = cheapestQuote.getJSONObject("OutboundLeg");
     		}
-    		leg = cheapestQuote.getJSONObject("InboundLeg");
     		
 		if(leg!=null) return new FlightQuote(departure, arrival,leg.getString("DepartureDate"), cheapestQuote.getInt("MinPrice"));
     	

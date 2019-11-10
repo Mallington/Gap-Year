@@ -1,7 +1,10 @@
 package de.techsails.Control.FlightPlanning;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,22 +42,38 @@ public class FlightPlanner {
 			}
 	}
 	
-	public List<Flight> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
-		ArrayList<Flight> flightsPlan = new ArrayList<>();
+	@SuppressWarnings("deprecation")
+	public List<FlightQuote> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
+		
+		ArrayList<FlightQuote> flightsPlan = new ArrayList<>();
 		String lastCountry = (user == null) ? "Germany" :  user.getCountry();
 		Date lastArrivalDate = null;
+		
 		while(countries.size() > 0) {
+			
 			Date departure = flightsPlan.isEmpty() ? departureDate : DateUtils.addToDate(lastArrivalDate, numOfDaysInbetween);
-			Flight bestFlight = getBestFlight(lastCountry,countries,departure);
+			System.out.println("Checking a flight from "+lastCountry+ " to one of these countries "+Arrays.toString(countries.toArray()));
+			FlightQuote bestFlight = getBestFlight(lastCountry,countries,departure);
+			
+			System.out.println(bestFlight);
+			System.out.println("    ||");
+			System.out.println("    ||");
+			System.out.println("    \\/");
+			
+			lastCountry = bestFlight.destCountry;
 			countries.remove(lastCountry);
-			lastCountry = bestFlight.getDestination();
 			flightsPlan.add(bestFlight);
+			try {
+				lastArrivalDate = new SimpleDateFormat("yyyy-mm-dd").parse(bestFlight.getDepartureTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return flightsPlan;
 	}
 	
-	public Flight getBestFlight(String country, List<String> countries, Date departure) {
+	public FlightQuote getBestFlight(String country, List<String> countries, Date departure) {
 		HashMap<String, Double> distances = new HashMap<String,Double>();
 		ArrayList<GeoCode> countriesGeoCodes = getGeoCodesFromCountryList(countries);
 		GeoCode curCountryGeo = getGeoCode(country);
@@ -65,11 +84,11 @@ public class FlightPlanner {
 		Optional< Entry<String, Double>> relationship = distances.entrySet().stream().max(new Comparator< Entry<String,Double> >() {
 			@Override
 			public int compare(Entry<String, Double> o1, Entry<String, Double> o2) {
-				return o1.getValue() > o2.getValue() ? 1 : -1;
+				return o1.getValue() > o2.getValue() ? -1 : 1;
 			}
 		});
 		
-		SkyScanner skyScanner = new SkyScanner("jacobs-2019"); //TODO add api key
+		SkyScanner skyScanner = new SkyScanner("jacobs-2019");
 		skyScanner.setDepartureDate(departure);
 		List<FlightQuote> flights = null ;
 		try {
@@ -84,7 +103,6 @@ public class FlightPlanner {
 				return o1.getMinCost() < o2.getMinCost() ? -1 : 1;
 			}
 		});
-		
 		return flights.get(0);
 	}
 	

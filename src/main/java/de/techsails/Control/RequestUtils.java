@@ -22,7 +22,7 @@ public class RequestUtils {
         
         int responseCode = httpClient.getResponseCode();
        
-        System.out.println("Response Code : " + responseCode);
+        //System.out.println("Response Code : " + responseCode);
 
         httpClient.connect();
         
@@ -38,7 +38,7 @@ public class RequestUtils {
             httpClient.disconnect();
             in.close();
             //print result
-            System.out.println(response.toString());
+            //System.out.println(response.toString());
            return response.toString();
 
         }

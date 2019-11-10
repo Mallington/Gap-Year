@@ -7,6 +7,8 @@ public class Flight {
 	private int id;
 	private String departure;
 	private String destination;
+	public String departCountry;
+	public String destCountry;
 	
 	public Flight() {
 		
