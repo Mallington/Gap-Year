@@ -1,8 +1,10 @@
 package de.techsails.Control;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.techsails.Entites.Flight;
+import de.techsails.Control.SkyScanner.FlightPreference;
+import de.techsails.Entites.*;
 import de.techsails.JavaJSON.*;
 
 public class SkyScanner {
@@ -39,9 +41,37 @@ public class SkyScanner {
 		}
     } */
     
-    public List<Flight> getFlights(String departure, String arrival, SkyScanner.FlightPreference preference) throws Exception {
+    
+    public List<FlightQuote> getPlaceToPlace(String departureLocation, String arrivalLocation, SkyScanner.FlightPreference preference) throws Exception {
+    	List<FlightQuote> flightQuotes = new ArrayList<FlightQuote>();
     	
+    	List<String> depatureAirports = getAirports(departureLocation);
+    	List<String> arrivalAirports = getAirports(arrivalLocation);
     	
+    	for(String depart : depatureAirports) {
+    		for(String arrival : arrivalAirports) {
+        		System.out.println(String.format("Checking: %s, %s", depart, arrival));
+        		FlightQuote cheapest = getAirportToAirport(depart, arrival, preference);
+        		System.out.println("Cheap: "+cheapest);
+        	}
+    	}
+    	
+    	return flightQuotes;
+    }
+    
+    public List<String> getAirports(String locationName) throws Exception{
+    	List<String> ids = new ArrayList<String>();
+    	String placesJSON = getPlacesString(locationName);
+    	
+    	JSONArray array = new JSONObject(placesJSON).getJSONArray("Places");
+    	
+    	for(int i =0; i< array.length(); i++) {
+    		ids.add(array.getJSONObject(i).getString("PlaceId"));
+    		
+    	}
+    	return ids;
+    }
+    public FlightQuote getAirportToAirport(String departure, String arrival, SkyScanner.FlightPreference preference) throws Exception {
     	String request = String.format("%s/v1/flights/browse/browsequotes/v1.0/%s/%s/%s/%s/%s/%s/%s"
     			,BASE_URL, marketCountry, targetCurrency, locale, departure, arrival, departureDate, arrivalDate);
     	
@@ -56,32 +86,29 @@ public class SkyScanner {
     	switch(preference) {
     	case CHEAPEST:
     		int cheapest = Integer.MAX_VALUE;
-    		int index = -1;
+    		JSONObject cheapestQuote = null;
     		
     		for(int i =0; i< quotes.length(); i++) {
     				JSONObject quote = quotes.getJSONObject(i);
     				if(quote.getInt("MinPrice")<cheapest) {
-    					index = i;
     					cheapest = quote.getInt("MinPrice");
+    					cheapestQuote = quote;
     				}
     		}
     		
-    		JSONObject cheapestQuote = quotes.getJSONObject(index);
-    		
-    		
-    		
-    		break;
+    		if(cheapestQuote!=null) return new FlightQuote(departure, arrival,cheapestQuote.getJSONObject("InboundLeg").getString("DepartureDate"), cheapestQuote.getInt("MinPrice"));
+    		else return null;
     	}
     	
     	
     	
-    	System.out.println(quotes.toString());
+    	
     	
     	
     	return null;
     }
     
-    public String getPlaces(String queryLocation) throws Exception {
+    public String getPlacesString(String queryLocation) throws Exception {
     	String request = String.format("%s/v1/places/autosuggest/v1.0/%s/%s/%s?query={%s}", BASE_URL,marketCountry, targetCurrency, locale, queryLocation);
     	return RequestUtils.sendGet(request, apiKey);
     }

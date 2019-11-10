@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import de.techsails.Control.SkyScanner.FlightPreference;
-import de.techsails.JavaJSON.JSONException;
+import de.techsails.JavaJSON.*;
 
 public class SkyScannerTest {
     public static String SKY_SCANNER_KEY = "jacobs-2019";
@@ -12,11 +12,12 @@ public class SkyScannerTest {
 
         SkyScanner travel = new SkyScanner(SKY_SCANNER_KEY);
         try {
-        	 System.out.println(travel.getPlaces(""));
+        	
         	 
-			travel.getFlights("MANC-sky", "LOND-sky", FlightPreference.CHEAPEST);
+			System.out.println(travel.getAirportToAirport("MANC-sky", "LOND-sky", FlightPreference.CHEAPEST));
 			
 			
+			travel.getPlaceToPlace("London", "Manchester", FlightPreference.CHEAPEST);
 			 
 		} catch (Exception e) {
 			System.out.println("flight crashed");
