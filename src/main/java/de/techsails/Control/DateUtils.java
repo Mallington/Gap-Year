@@ -3,6 +3,7 @@ package de.techsails.Control;
 import java.util.Date;
 
 public class DateUtils {
+	
 	private DateUtils() {}
 	
 	public static Date addToDate(Date date, int days) {
