@@ -20,12 +20,5 @@ public class Countries {
 	public void setCountries(List<String> countries) {
 		this.countries = countries;
 	}
-	
-	
-	public String countiresAsString() {
-		String sb = "";
-		for(String c: countries)
-			sb += c + " ";
-		return sb;
-	}
+
 }

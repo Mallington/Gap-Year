@@ -17,11 +17,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import de.techsails.Control.FlightPlanning.FlightPlanner;
+import de.techsails.Control.FlightPlanner;
 import de.techsails.Entites.Countries;
 import de.techsails.Entites.Login;
 import de.techsails.Entites.User;
 import de.techsails.db.DBManager;
+import jersey.repackaged.com.google.common.base.Joiner;
 
 /**
  * The Class itemsService.
@@ -76,7 +77,7 @@ public class itemsService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String register(Countries countries) {
-		return "your list: " + countries.countiresAsString();
+		return "your list: " + Joiner.on("\t").join((Iterable<?>) countries);
 	}
 
 

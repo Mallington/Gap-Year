@@ -17,7 +17,7 @@ public class SkyScannerTest {
 			System.out.println(travel.getAirportToAirport("MANC-sky", "LOND-sky", FlightPreference.CHEAPEST));
 			
 			
-			travel.getPlaceToPlace("London", "Manchester", FlightPreference.CHEAPEST);
+			travel.getPlaceToPlace("Germany", "China", FlightPreference.CHEAPEST);
 			 
 		} catch (Exception e) {
 			System.out.println("flight crashed");

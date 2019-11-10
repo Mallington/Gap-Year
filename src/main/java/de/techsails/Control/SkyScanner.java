@@ -23,7 +23,7 @@ public class SkyScanner {
     private String targetCurrency = "GBP";
     private String locale = "en-GG";
     private String departureDate = "anytime";
-    private String arrivalDate = "anytime";
+    private String arrivalDate = "";
     
     
     
@@ -60,13 +60,11 @@ public class SkyScanner {
     		for(String arrival : arrivalAirports) {
         		//System.out.println(String.format("Checking: %s, %s", depart, arrival));
         		FlightQuote cheapest = getAirportToAirport(depart, arrival, preference);
-
         		if (cheapest!=null) {
         			cheapest.departCountry = departureLocation;
             		cheapest.destCountry = arrivalLocation;
         			flightQuotes.add(cheapest);
         		}
-
         	}
     	}
     	
@@ -110,7 +108,6 @@ public class SkyScanner {
     				}
     		}
     		
-
     		JSONObject leg = null;
     		if(cheapestQuote==null) return null;
     		
