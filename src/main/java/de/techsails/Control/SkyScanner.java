@@ -1,6 +1,8 @@
 package de.techsails.Control;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.techsails.Control.SkyScanner.FlightPreference;
@@ -44,8 +46,9 @@ public class SkyScanner {
     public String getDepartureDate() {
     	return departureDate;
     }
-    public void setDepartureDate(String departureDate) {
-    	this.departureDate = departureDate;
+    public void setDepartureDate(Date date) {
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	departureDate = format.format(date);
     }
     public List<FlightQuote> getPlaceToPlace(String departureLocation, String arrivalLocation, SkyScanner.FlightPreference preference) throws Exception {
     	List<FlightQuote> flightQuotes = new ArrayList<FlightQuote>();
