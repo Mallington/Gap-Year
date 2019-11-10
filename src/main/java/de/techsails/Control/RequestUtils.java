@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class RequestUtils {
 	public static String sendGet(String url, String apiKey) throws Exception {
-		//System.out.println("GET "+url);
+		System.out.println("GET "+url);
         HttpURLConnection httpClient =
                 (HttpURLConnection) new URL(url).openConnection();
 
@@ -38,7 +38,7 @@ public class RequestUtils {
             httpClient.disconnect();
             in.close();
             //print result
-            //System.out.println(response.toString());
+
            return response.toString();
 
         }
