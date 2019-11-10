@@ -41,7 +41,7 @@ public class FlightPlanner {
 	
 	public List<Flight> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
 		ArrayList<Flight> flightsPlan = new ArrayList<>();
-		String lastCountry = user.getCountry();
+		String lastCountry = (user == null) ? "Germany" :  user.getCountry();
 		Date lastArrivalDate = null;
 		while(countries.size() > 0) {
 			Date departure = flightsPlan.isEmpty() ? departureDate : DateUtils.addToDate(lastArrivalDate, numOfDaysInbetween);
@@ -69,11 +69,14 @@ public class FlightPlanner {
 			}
 		});
 		
-		SkyScanner skyScanner = new SkyScanner("jackobs2019"); //TODO add api key
+		SkyScanner skyScanner = new SkyScanner("jacobs-2019"); //TODO add api key
+		skyScanner.setDepartureDate(departure);
 		List<FlightQuote> flights = null ;
 		try {
 			flights = skyScanner.getPlaceToPlace(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		flights.sort(new Comparator<FlightQuote>() {
 			@Override
