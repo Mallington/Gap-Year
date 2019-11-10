@@ -10,8 +10,15 @@ public class Trip {
 		this.name = name;
 	}
 
+	public Trip(String name) {
+		this.id = 0;
+		this.name = name;
+	}
+
+	
 	public Trip() {
 	}
+
 	
 	public int getId() {
 		return id;

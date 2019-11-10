@@ -2,6 +2,9 @@ package de.techsails.Entites;
 
 import java.sql.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class User {
 	
 	private String email;
