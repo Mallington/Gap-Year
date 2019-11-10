@@ -104,8 +104,20 @@ public class SkyScanner {
     				}
     		}
     		
-    		if(cheapestQuote!=null) return new FlightQuote(departure, arrival,cheapestQuote.getJSONObject("InboundLeg").getString("DepartureDate"), cheapestQuote.getInt("MinPrice"));
-    		else return null;
+    		JSONObject leg = null;
+    		if(cheapestQuote==null) return null;
+    		
+    		if(!cheapestQuote.isNull("InboundLeg")) {
+    			cheapestQuote.getJSONObject("InboundLeg");
+    			
+    		}else if(!cheapestQuote.isNull("OutboundLeg")) {
+    			System.out.println("Out");
+    			cheapestQuote.getJSONObject("OutboundLeg");
+    		}
+    		leg = cheapestQuote.getJSONObject("InboundLeg");
+    		
+		if(leg!=null) return new FlightQuote(departure, arrival,leg.getString("DepartureDate"), cheapestQuote.getInt("MinPrice"));
+    	
     	}
     	
     	
