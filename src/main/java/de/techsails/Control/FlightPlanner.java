@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
+
 import de.techsails.Entites.Flight;
+import de.techsails.Entites.FlightQuote;
 import de.techsails.Entites.User;
 import de.techsails.JavaJSON.JSONArray;
-import de.techsails.JavaJSON.JSONObject;
 import de.techsails.JavaJSON.JSONTokener;
 
 public class FlightPlanner {
@@ -66,10 +67,17 @@ public class FlightPlanner {
 		});
 		
 		SkyScanner skyScanner = new SkyScanner("jackobs2019"); //TODO add api key
-		List<Flight> flights = null ;
+		List<FlightQuote> flights = null ;
 		try {
-			flights = skyScanner.getFlights(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
+			flights = skyScanner.getPlaceToPlace(country, relationship.get().getKey(), SkyScanner.FlightPreference.CHEAPEST);
 		} catch (Exception e) {}
+		
+		flights.sort(new Comparator<FlightQuote>() {
+			@Override
+			public int compare(FlightQuote o1, FlightQuote o2) {
+				return o1.getMinCost() < o2.getMinCost() ? -1 : 1;
+			}
+		});
 		
 		return flights.get(0);
 	}

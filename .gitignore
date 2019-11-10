@@ -1,4 +1,5 @@
 /target/
+/src/main/java/test/
 *.class
 *.class
 bin/src/main/java/de/techsails/items/Tablet.class
