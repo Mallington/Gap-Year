@@ -40,8 +40,13 @@ public class SkyScanner {
 			return false;
 		}
     } */
-    
-    
+
+    public String getDepartureDate() {
+    	return departureDate;
+    }
+    public void setDepartureDate(String departureDate) {
+    	this.departureDate = departureDate;
+    }
     public List<FlightQuote> getPlaceToPlace(String departureLocation, String arrivalLocation, SkyScanner.FlightPreference preference) throws Exception {
     	List<FlightQuote> flightQuotes = new ArrayList<FlightQuote>();
     	
