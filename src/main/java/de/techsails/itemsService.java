@@ -17,9 +17,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import de.techsails.Control.FlightPlanner;
+import de.techsails.Entites.Countries;
 import de.techsails.Entites.Login;
 import de.techsails.Entites.User;
 import de.techsails.db.DBManager;
+import jersey.repackaged.com.google.common.base.Joiner;
 
 /**
  * The Class itemsService.
@@ -28,10 +31,12 @@ import de.techsails.db.DBManager;
 @Path("")
 public class itemsService {
 	private DBManager dbm;
+	private FlightPlanner fp;
 
 	public itemsService() {
 		try {
 			dbm = new DBManager();
+			fp = new FlightPlanner();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,5 +71,14 @@ public class itemsService {
 	public String register(User user) {
 		return dbm.createUser(user);
 	}
+	
+	@POST
+	@Path("/countries")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String register(Countries countries) {
+		return "your list: " + Joiner.on("\t").join((Iterable<?>) countries);
+	}
+
 
 }
