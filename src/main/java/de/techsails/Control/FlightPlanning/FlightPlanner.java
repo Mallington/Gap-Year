@@ -1,7 +1,6 @@
-package de.techsails.Control;
+package de.techsails.Control.FlightPlanning;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +9,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import de.techsails.Control.DateUtils;
+import de.techsails.Control.SkyScanner;
 import de.techsails.Entites.Flight;
 import de.techsails.Entites.FlightQuote;
 import de.techsails.Entites.User;
@@ -18,22 +19,24 @@ import de.techsails.JavaJSON.JSONTokener;
 
 public class FlightPlanner {
 	
-	FileInputStream countriesGeoCodesFile;
+	InputStream countriesGeoCodesFile;
 	JSONArray countriesGeoCodes;
 	
-	HashMap<String, CountryData> countryData;
+	HashMap<String, CountryData> countryData = new HashMap<>();
 	
 	public FlightPlanner() {
-		try {
-			countriesGeoCodesFile = new FileInputStream(getClass().getResource("country-geocodes.json").getPath());
+			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			countriesGeoCodesFile = classloader.getResourceAsStream("country-geocodes.json");
 			countriesGeoCodes = new JSONArray(new JSONTokener(countriesGeoCodesFile));
 			for (int i = 0; i < countriesGeoCodes.length(); i++) {
 				JSONArray tmp = countriesGeoCodes.getJSONArray(i);
-				CountryData data = new CountryData(tmp.getString(0),tmp.getDouble(1),tmp.getDouble(2),tmp.getString(3));
+				CountryData data = new CountryData(
+						tmp.getString(0),
+						Double.parseDouble(tmp.getString(1)),
+						Double.parseDouble(tmp.getString(2)),
+						tmp.getString(3));
 				countryData.put(data.name, data);
 			}
-		} catch(FileNotFoundException e) {
-		}
 	}
 	
 	public List<Flight> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
@@ -92,34 +95,5 @@ public class FlightPlanner {
 	
 	public GeoCode getGeoCode(String country) {
 		return countryData.get(country).geoCode;
-	}
-}
-
-
-class GeoCode{
-	public double longitude;
-	public double latitude;
-	
-	public GeoCode(double lon, double lat) {
-		longitude = lon;
-		latitude = lat;
-	}
-	
-	public Double getDistance(GeoCode code) {
-		return Math.sqrt(Math.pow(longitude-code.longitude,2) + Math.pow(latitude-code.latitude,2));
-	}
-}
-
-class CountryData {
-	public String country;
-	public GeoCode geoCode;
-	public String name;
-	
-	public CountryData() {}
-	
-	public CountryData(String country, double lat, double lon, String name) {
-		this.country = country;
-		geoCode = new GeoCode(lon, lat);
-		this.name = name;
 	}
 }
