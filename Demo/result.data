@@ -1,0 +1,53 @@
+Checking a flight from Germany to one of these countries [France, Italy, Tunisia, Egypt]
+
+Depart: DE-sky
+Arrive:IT-sky
+Cost: 12
+    ||
+    ||
+    \/
+
+Checking a flight from Italy to one of these countries [France, Tunisia, Egypt]
+
+Depart: IT-sky
+Arrive:TN-sky
+Cost: 78
+    ||
+    ||
+    \/
+
+Checking a flight from Tunisia to one of these countries [France, Egypt]
+
+Depart: TN-sky
+Arrive:FR-sky
+Cost: 36
+    ||
+    ||
+    \/
+
+Checking a flight from France to one of these countries [Egypt]
+
+Depart: FR-sky
+Arrive: EG-sky
+Cost: 63
+    ||
+    ||
+    \/
+
+Depart: DE-sky
+Arrive: IT-sky
+Cost: 12
+--------------
+Depart: IT-sky
+Arrive: TN-sky
+Cost: 78
+--------------
+Depart: TN-sky
+Arrive: FR-sky
+Cost: 36
+--------------
+Depart: FR-sky
+Arrive:EG-sky
+Cost: 63
+
+===============================> Total cost : 189 Euro <===============================
