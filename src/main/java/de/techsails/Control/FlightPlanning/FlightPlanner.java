@@ -43,11 +43,13 @@ public class FlightPlanner {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public List<FlightQuote> getFlightPlan(List<String> countries,User user,Date departureDate, int numOfDaysInbetween) {
+	public List<FlightQuote> getFlightPlan(List<String> countries,User user,String date, int numOfDaysInbetween) throws ParseException {
 		
 		ArrayList<FlightQuote> flightsPlan = new ArrayList<>();
 		String lastCountry = (user == null) ? "Germany" :  user.getCountry();
 		Date lastArrivalDate = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	Date departureDate = format.parse(date);
 		
 		while(countries.size() > 0) {
 			
@@ -64,7 +66,7 @@ public class FlightPlanner {
 			countries.remove(lastCountry);
 			flightsPlan.add(bestFlight);
 			try {
-				lastArrivalDate = new SimpleDateFormat("yyyy-mm-dd").parse(bestFlight.getDepartureTime());
+				lastArrivalDate = new SimpleDateFormat("yyyy-MM-dd").parse(bestFlight.getDepartureTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

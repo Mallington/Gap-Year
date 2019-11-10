@@ -8,6 +8,9 @@
 package de.techsails;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,8 +20,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import de.techsails.Control.FlightPlanner;
-import de.techsails.Entites.Countries;
+import de.techsails.Control.FlightPlanning.FlightPlanner;
+import de.techsails.Entites.FlightPlan;
+import de.techsails.Entites.FlightQuote;
 import de.techsails.Entites.Login;
 import de.techsails.Entites.User;
 import de.techsails.db.DBManager;
@@ -46,7 +50,7 @@ public class itemsService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String test() {
 
-		return "RESTful server for ML project " + dbm.toString() + "online DB on Google Cloud!";
+		return "RESTful server for ML project Version " + 22;
 	}
 
 	@GET
@@ -63,7 +67,7 @@ public class itemsService {
 	public User login(Login login) {
 		return dbm.getUser(login.getEmail(), login.getPwd());
 	}
-	
+
 	@POST
 	@Path("/register")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -71,14 +75,14 @@ public class itemsService {
 	public String register(User user) {
 		return dbm.createUser(user);
 	}
-	
+
 	@POST
 	@Path("/countries")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String register(Countries countries) {
-		return "your list: " + Joiner.on("\t").join((Iterable<?>) countries);
+	public List<FlightQuote> register(FlightPlan flightPlan) throws ParseException {
+		return fp.getFlightPlan(flightPlan.getCountries(), null, flightPlan.getDepartureDate(),
+				flightPlan.getNumOfDaysInbetween());
 	}
-
 
 }

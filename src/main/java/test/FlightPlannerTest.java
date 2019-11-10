@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 import org.junit.Before;
@@ -34,7 +35,13 @@ public class FlightPlannerTest {
 	@Test
 	public void testGetFlightPlan() {
 		System.out.println("**************** getFlightPlan ****************");
-		List<FlightQuote> flights = planner.getFlightPlan(countries, null, new Date(1577847946000L), 3);
+		List<FlightQuote> flights = null;
+		try {
+			flights = planner.getFlightPlan(countries, null, "2020-01-01", 3);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(FlightQuote flight : flights) {
 			System.out.println(flight);
 		}
